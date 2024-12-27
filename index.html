@@ -1,0 +1,126 @@
+<html>
+<head>
+   <title>Belajar WebGIS</title>
+   <!-- LEAFLET CSS -->
+   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+   <style>
+    #map{
+        width: 100%;
+        height: 100vh;
+    }
+    </style>
+<head>
+   <body>
+   <div id="map"></div>
+   </body>
+   </html>
+   <!-- LEAFLET JAVASCRIPT -->
+   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+   <script src ="C:\WEBGIS\TITIK2.js"></script>
+   <script src ="C:\WEBGIS\bandar lampung.js"></script>
+   <script>
+    <!-- LOKASI KAJIAN -->
+    var map = L.map('map').setView([-5.367016, 105.317890], 15);
+    <!-- BASEMAP OPENSTREETMAP -->
+    var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+     });
+     osm.addTo(map);
+     <!-- BASEMAP ESRI -->
+var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+    });
+Esri_WorldImagery.addTo(map);
+<!-- POSISI GEDUNG GKU 1 -->
+//L.marker([-5.360884, 105.310435]).addTo(map);
+<!-- POSISI GEDUNG LABTEK 1 -->
+//L.marker([-5.360326, 105.310200]).addTo(map);
+<!-- POSISI GEDUNG F -->
+//L.marker([-5.3613689,105.3135429]).addTo(map);
+<!-- BUNDARAN YANG SERING SAYA LANGGAR ATURAN SAAT BERLALU LINTAS DI ITERA -->
+var bundaran = L.circle([ -5.363156, 105.312634], {
+    color: 'red',
+    fillColor: '#f03',
+    fillOpacity: 0.5,
+    radius: 20
+}).addTo(map);
+<!-- BUNDARAN INI JUGA SERING SAYA LANGGAR SETELAH SELESAI KULIAH DI GKU 2 -->
+var bundaran = L.circle([-5.360813, 105.314847], {
+    color: 'green',
+    fillColor: '#f03',
+    fillOpacity: 0.5,
+    radius: 35
+}).addTo(map);
+<!-- POLIGON BANGUNAN  GEDUNG E -->
+var polygon = L.polygon([
+    [-5.359799, 105.315831],
+    [-5.359957, 105.315831],
+    [-5.359957, 105.315571],
+    [-5.360474, 105.315571],
+    [-5.360474, 105.315401],
+    [-5.359635, 105.315401],
+    [-5.359635, 105.315571],
+    [-5.359799, 105.315571]
+]).addTo(map);
+<!-- POLIGON BANGUNAN  GEDUNG GKU 1 -->
+var polygon = L.polygon([
+    [-5.360805, 105.309904],
+    [-5.361068, 105.309902],
+    [-5.361078, 105.310981],
+    [-5.360799, 105.311013]
+]).addTo(map);
+<!-- POLIGON BANGUNAN  GEDUNG LABTEK 1 -->
+var polygon = L.polygon([
+    [-5.360223, 105.309938],
+    [-5.360465, 105.309936],
+    [-5.360458, 105.310491],
+    [-5.360200, 105.310518]
+]).addTo(map);
+<!-- POLIGON BANGUNAN  GEDUNG F -->
+var polygon = L.polygon([
+    [-5.361165, 105.313790],
+    [-5.361265, 105.313841],
+    [-5.361279, 105.314158],
+    [-5.361504, 105.314149],
+    [-5.361500, 105.313999],
+    [-5.361773, 105.313995],
+    [-5.361771, 105.313789],
+    [-5.361512, 105.313806],
+    [-5.361502, 105.313257],
+    [-5.361308, 105.313261],
+    [-5.361279, 105.313609],
+    [-5.361169, 105.313617]
+]).addTo(map);
+<!-- MENAMPILKAN NAMA GEDUNG F -->
+    var Gedung_F = L.marker([-5.3613689,105.3135429]);
+    var namagedungF = Gedung_F.bindPopup("Gedung F").openPopup()
+    namagedungF.addTo(map);
+<!-- MENAMPILKAN NAMA GEDUNG GKU 1 -->
+    var GKU1 = L.marker([-5.360884, 105.310435]);
+    var namagku1 = GKU1.bindPopup("Gedung GKU 1").openPopup()
+    namagku1.addTo(map);
+<!-- MENAMPILKAN NAMA GEDUNG LABTEK 1 -->
+    var LABTEK_1 = L.marker([-5.360326, 105.310200]);
+    var namalabtek1 = LABTEK_1.bindPopup("Gedung Labtek 1").openPopup()
+    namalabtek1.addTo(map);
+    var baseMaps = {
+	"OSM":osm,
+	"ESRI":Esri_WorldImagery,
+};
+var overlayMaps = {
+	"GKU 1" : GKU1,
+    "Gedung F":Gedung_F,
+    "LABTEK 1": LABTEK_1,
+    //"Bundaran GKU": bundaranGKU,
+    //"Gedung E": polygon,
+};
+map.removeLayer(GKU1)
+map.removeLayer(Gedung_F)
+map.removeLayer(LABTEK_1)
+//map.removeLayer(bundaranGKU)
+//map.removeLayer(polygon)
+
+L.control.layers(baseMaps,overlayMaps, {collapsed : false}).addTo(map);
+L.geoJSON(titikgeojson).addTo(map);
+L.geoJSON(bandarlpg).addTo(map);
+ </script>
